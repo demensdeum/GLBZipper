@@ -1,7 +1,15 @@
+#!/usr/bin/env python
+
 import os
 import json
 import tempfile
 from gltflib import GLTF
+import subprocess
+
+def png_to_jpg(source_file, output_file):
+    print(source_file)
+    print(output_file)
+    subprocess.run(['magick', 'convert', source_file, '-quality', '75', output_file])
 
 def glb_to_gltf(source_path, output_path, resources_filepath):
     gltf = GLTF.load(source_path)
@@ -25,6 +33,7 @@ def extract_textures(gltf_path, temporary_gltf_file, resources_filepath):
             output_image_file = open(image_file_path, "wb")
             resource.seek(start_byte)    
             output_image_file.write(resource.read(bytes_length))
+            png_to_jpg(image_file_path, f"{image_file_path}.jpg")
 
 def compress_glb(source_path, output_path):
     temporary_directory = tempfile.gettempdir()
