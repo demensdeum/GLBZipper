@@ -1,2 +1,0 @@
-# GLBZipper
-GLB models compression
